@@ -3,114 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Форма для реєстрації</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .container h2 {
-            text-align: center;
-        }
-        .table-container {
-            display: none;
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
+    <title>Форма реєстрації</title>
 </head>
 <body>
-    <div class="container">
-        <h2>Форма реєстрації</h2>
-        <form id="registration-form">
-            <label for="first-name">Ім'я:</label>
-            <input type="text" id="first-name" name="first-name" required><br><br>
-            
-            <label for="last-name">Прізвище:</label>
-            <input type="text" id="last-name" name="last-name" required><br><br>
-            
-            <label for="birthdate">Дата народження:</label>
-            <input type="date" id="birthdate" name="birthdate" required><br><br>
-            
-            <label>Стать:</label><br>
-            <input type="radio" id="male" name="gender" value="male">
-            <label for="male">Чоловік</label><br>
-            <input type="radio" id="female" name="gender" value="female">
-            <label for="female">Жінка</label><br><br>
-            
-            <label for="city">Місто:</label>
-            <select id="city" name="city">
-                <option value="Kyiv">Київ</option>
-                <option value="Lviv">Львів</option>
-                <option value="Kharkiv">Харків</option>
-                <option value="Odesa">Одеса</option>
-            </select><br><br>
-            
-            <label for="address">Адреса:</label><br>
-            <textarea id="address" name="address" rows="4" cols="50" required></textarea><br><br>
-            
-            <label>Мови, якими володієте:</label><br>
-            <input type="checkbox" id="english" name="languages" value="english">
-            <label for="english">Англійська</label><br>
-            <input type="checkbox" id="spanish" name="languages" value="spanish">
-            <label for="spanish">Іспанська</label><br>
-            <input type="checkbox" id="french" name="languages" value="french">
-            <label for="french">Французька</label><br><br>
-            
-            <button type="button" id="submit-button">Зберегти</button>
-        </form>
+    <h1>Форма реєстрації</h1>
+    <form id="registrationForm">
+        <label for="firstName">Ім'я:</label>
+        <input type="text" id="firstName" name="firstName" required><br><br>
 
-        <div class="table-container">
-            <h2>Ваші дані:</h2>
-            <table id="data-table">
-            </table>
-        </div>
+        <label for="lastName">Прізвище:</label>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+
+        <label for="dob">Дата народження:</label>
+        <input type="text" id="dob" name="dob" required><br><br>
+
+        <label>Стать:</label>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Чоловік</label>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Жінка</label><br><br>
+
+        <label for="city">Місто:</label>
+        <select id="city" name="city">
+            <option value="Київ">Київ</option>
+            <option value="Львів">Львів</option>
+            <option value="Одеса">Одеса</option>
+        </select><br><br>
+
+        <label for="address">Адреса:</label>
+        <textarea id="address" name="address" rows="4" cols="50"></textarea><br><br>
+
+        <label>Мови, якими володієте:</label><br>
+        <input type="checkbox" id="english" name="languages" value="english">
+        <label for="english">Англійська</label><br>
+        <input type="checkbox" id="french" name="languages" value="french">
+        <label for="french">Французька</label><br>
+        <input type="checkbox" id="spanish" name="languages" value="spanish">
+        <label for="spanish">Іспанська</label><br>
+
+        <button type="button" onclick="showData()">Зберегти</button>
+    </form>
+
+    <div id="tableContainer" style="display: none;">
     </div>
 
     <script>
-        const form = document.getElementById('registration-form');
-        const tableContainer = document.querySelector('.table-container');
-        const dataTable = document.getElementById('data-table');
+        function showData() {
+            const form = document.getElementById("registrationForm");
+            const tableContainer = document.getElementById("tableContainer");
 
-        const submitButton = document.getElementById('submit-button');
-        submitButton.addEventListener('click', function () {
-            const firstName = document.getElementById('first-name').value;
-            const lastName = document.getElementById('last-name').value;
-            const birthdate = document.getElementById('birthdate').value;
-            const gender = document.querySelector('input[name="gender"]:checked').value;
-            const city = document.getElementById('city').value;
-            const address = document.getElementById('address').value;
-            const languages = Array.from(document.querySelectorAll('input[name="languages"]:checked')).map(checkbox => checkbox.value);
+            if (form.checkValidity()) {
+                const firstName = document.getElementById("firstName").value;
+                const lastName = document.getElementById("lastName").value;
+                const dob = document.getElementById("dob").value;
+                const gender = document.querySelector('input[name="gender"]:checked').value;
+                const city = document.getElementById("city").value;
+                const address = document.getElementById("address").value;
+                const languages = [...document.querySelectorAll('input[name="languages"]:checked')].map(checkbox => checkbox.value);
 
-            const row = `<tr>
-                            <td>${firstName}</td>
-                            <td>${lastName}</td>
-                            <td>${birthdate}</td>
-                            <td>${gender}</td>
-                            <td>${city}</td>
-                            <td>${address}</td>
-                            <td>${languages.join(', ')}</td>
-                        </tr>`;
-            
-            dataTable.innerHTML += row;
-            form.reset();
-            tableContainer.style.display = 'block';
-        });
+                const table = document.createElement("table");
+                const tbody = document.createElement("tbody");
+                const tr1 = document.createElement("tr");
+                const tr2 = document.createElement("tr");
+
+                const th1 = document.createElement("th");
+                th1.textContent = "Поле";
+                const th2 = document.createElement("th");
+                th2.textContent = "Значення";
+
+                const td1 = document.createElement("td");
+                td1.textContent = "Ім'я";
+                const td2 = document.createElement("td");
+                td2.textContent = firstName;
+
+                const td3 = document.createElement("td");
+                td3.textContent = "Прізвище";
+                const td4 = document.createElement("td");
+                td4.textContent = lastName;
+
+                const td5 = document.createElement("td");
+                td5.textContent = "Дата народження";
+                const td6 = document.createElement("td");
+                td6.textContent = dob;
+
+                const td7 = document.createElement("td");
+                td7.textContent = "Стать";
+                const td8 = document.createElement("td");
+                td8.textContent = gender;
+
+                const td9 = document.createElement("td");
+                td9.textContent = "Місто";
+                const td10 = document.createElement("td");
+                td10.textContent = city;
+
+                const td11 = document.createElement("td");
+                td11.textContent = "Адреса";
+                const td12 = document.createElement("td");
+                td12.textContent = address;
+
+                const td13 = document.createElement("td");
+                td13.textContent = "Мови";
+                const td14 = document.createElement("td");
+                td14.textContent = languages.join(", ");
+
+                tr1.appendChild(th1);
+                tr1.appendChild(th2);
+
+                tr2.appendChild(td1);
+                tr2.appendChild(td2);
+                tr2.appendChild(td3);
+                tr2.appendChild(td4);
+                tr2.appendChild(td5);
+                tr2.appendChild(td6);
+                tr2.appendChild(td7);
+                tr2.appendChild(td8);
+                tr2.appendChild(td9);
+                tr2.appendChild(td10);
+                tr2.appendChild(td11);
+                tr2.appendChild(td12);
+                tr2.appendChild(td13);
+                tr2.appendChild(td14);
+
+                tbody.appendChild(tr1);
+                tbody.appendChild(tr2);
+                table.appendChild(tbody);
+
+                form.style.display = "none";
+                tableContainer.style.display = "block";
+                tableContainer.appendChild(table);
+            }
+        }
     </script>
 </body>
 </html>
